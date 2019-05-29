@@ -1,0 +1,42 @@
+---
+- hosts: all
+  gather_facts: yes
+  become: yes
+
+  tasks:
+
+  - name: Install libaio1
+    apt:
+      name: libaio1
+      state: present
+
+  - name: Install curl
+    apt:
+      name: curl
+      state: present
+
+  - name: Ensure Datastax apt repo exists
+    apt_repository:
+      repo: deb https://debian.datastax.com/enterprise/ stable main
+      state: present
+
+  - name: Import DataStax repository key
+    shell: curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add - && touch datastax.key
+    args:
+      creates: datastax.key
+
+  - name: Update all packages to the latest version
+    apt:
+      upgrade: dist
+
+  - name: Install dse
+    apt:
+      name: dse-full
+      state: present
+      force: yes
+
+  - name: Install demos
+    apt:
+      name: dse-demos
+      state: present
+      force: yes
