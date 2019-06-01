@@ -14,4 +14,4 @@ The vault.yml file, excluded by .gitignore, should contain the two following var
 datastax_username
 datastax_password
 
-These are login details for Datastax Academy. This is of course encrypted by vault. Vargant will prompt for the password.
+These are login details for Datastax Academy. This is of course encrypted by vault. Vagrant will prompt for the password.
