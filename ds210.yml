@@ -5,6 +5,10 @@
 
   tasks:
 
+  - name: Include ansible vault vars
+    include_vars:
+      file:  vault.yml
+
   - name: Install libaio1
     apt:
       name: libaio1
@@ -15,10 +19,22 @@
       name: curl
       state: present
 
+  - name: Install openjdk
+    apt:
+      name: openjdk-8-jdk
+      state: present
+
+  - name: Install apt-transport-https
+    apt:
+      name: apt-transport-https
+      state: present
+
   - name: Ensure Datastax apt repo exists
     apt_repository:
-      repo: deb https://debian.datastax.com/enterprise/ stable main
+      repo: deb https://{{ datastax_username }}:{{ datastax_password }}@debian.datastax.com/enterprise stable main
       state: present
+      filename: datastax.sources.list
+    #register: dse
 
   - name: Import DataStax repository key
     shell: curl -L https://debian.datastax.com/debian/repo_key | sudo apt-key add - && touch datastax.key
@@ -27,7 +43,8 @@
 
   - name: Update all packages to the latest version
     apt:
-      upgrade: dist
+      upgrade: yes
+      update_cache: yes
 
   - name: Install dse
     apt:

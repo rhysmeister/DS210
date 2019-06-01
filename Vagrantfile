@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
     "ds210-node3"
   ].each do |host|
       config.vm.define "#{host}" do |dse|
-        dse.vm.box = "ubuntu/trusty64"
+        dse.vm.box = "generic/debian9"
         dse.vm.network "private_network", ip: "192.168.44.#{100 + ip}"
         ip += 1
         dse.vm.provider :virtualbox do |vb|
@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
         if host == "ds210-node3"
           config.vm.provision :ansible do |ansible|
             ansible.limit = "all"
+            ansible.raw_arguments  = "--ask-vault-pass"
             ansible.playbook = "ds210.yml"
           end
         end

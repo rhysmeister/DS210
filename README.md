@@ -8,3 +8,10 @@ ds210-node2
 ds210-node3
 
 With the DSE software stack installed. No further configuration is performed (That's your job).
+
+The vault.yml file, excluded by .gitignore, should contain the two following variables...
+
+datastax_username
+datastax_password
+
+These are login details for Datastax Academy. This is of course encrypted by vault. Vargant will prompt for the password.
